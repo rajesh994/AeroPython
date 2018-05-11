@@ -16,7 +16,7 @@ x = numpy.linspace(x_start, x_end, N)    # computes a 1D-array for x
 y = numpy.linspace(y_start, y_end, N)    # computes a 1D-array for y
 X, Y = numpy.meshgrid(x, y)              # generates a mesh grid
 
-kappa = 0.65                           # strength of the doublet
+kappa = 0.6                           # strength of the doublet
 x_doublet, y_doublet = 0.0, 0.0       # location of the doublet
 
 u_inf = 1.0                           # freestream speed
