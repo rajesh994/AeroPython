@@ -12,13 +12,13 @@ from matplotlib import pyplot
 
 
 gamma = 5.0                      # strength of the vortex
-Nv=12                   #number of vortices
-a=5                     #distance between vortices
-x_vortex=numpy.arange(0,Nv*a,a)
+Nv=1000              #number of vortices
+a=1                     #distance between vortices
+x_vortex=numpy.arange(-Nv*a/2,Nv*a/2,a)
 y_vortex=numpy.zeros(Nv) # location of the vortex
 
-N = 50                                # Number of points in each direction
-x_start, x_end = 0, 5*a            # x-direction boundaries
+N = 100                                # Number of points in each direction
+x_start, x_end = -5*a, 5*a            # x-direction boundaries
 y_start, y_end = -a,a            # y-direction boundaries
 x = numpy.linspace(x_start, x_end, N)    # computes a 1D-array for x
 y = numpy.linspace(y_start, y_end, N)    # computes a 1D-array for y
@@ -96,13 +96,14 @@ for x in x_vortex:
 
 
 # plot the streamlines
-width = 10
-height = (y_end - y_start) / (x_end - x_start) * width
+height = 2
+width =  (x_end - x_start)/(y_end - y_start) * height
+
 pyplot.figure(figsize=(width, height))
 pyplot.xlabel('x', fontsize=16)
 pyplot.ylabel('y', fontsize=16)
 pyplot.xlim(x_start, x_end)
 pyplot.ylim(y_start, y_end)
 pyplot.streamplot(X, Y, u, v,
-                 density=2, linewidth=1, arrowsize=1, arrowstyle='->')
+                 density=1, linewidth=1, arrowsize=1, arrowstyle='->')
 pyplot.scatter(x_vortex, y_vortex, color='#CD2305', s=80, marker='o');
