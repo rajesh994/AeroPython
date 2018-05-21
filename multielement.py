@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Mon May 21 15:52:37 2018
+
+@author: rajesh994
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Fri May 18 17:42:29 2018
 
 @author: rajesh994
@@ -233,13 +240,13 @@ def kutta_condition(A_source, B_vortex):
     # matrix of vortex contribution on tangential velocity
     # is the opposite of
     # matrix of source contribution on normal velocity
-    b[0,-2] = - numpy.sum(A_source[0, 0:Na-1] + A_source[Na-1, 0:Na-1])
+    b[0,-2] = - numpy.sum(A_source[0, 0:Na] + A_source[Na-1, 0:Na])
     
-    b[0,-1] = - numpy.sum(A_source[0, Na:Na+Nb-1] + A_source[Na-1, Na:Na+Nb-1])
+    b[0,-1] = - numpy.sum(A_source[0, Na:Na+Nb] + A_source[Na-1, Na:Na+Nb])
     
-    b[1,-2] = - numpy.sum(A_source[Na, 0:Na-1] + A_source[Na+Nb-1, 0:Na-1])
+    b[1,-2] = - numpy.sum(A_source[Na, 0:Na] + A_source[Na+Nb-1, 0:Na])
     
-    b[1,-1] = - numpy.sum(A_source[Na, Na:Na+Nb-1] + A_source[Na+Nb-1, Na:Na+Nb-1])
+    b[1,-1] = - numpy.sum(A_source[Na, Na:Na+Nb] + A_source[Na+Nb-1, Na:Na+Nb])
     return b
 
 def build_singularity_matrix(A_source, B_vortex):
@@ -263,8 +270,8 @@ def build_singularity_matrix(A_source, B_vortex):
     # source contribution matrix
     A[:-2, :-2] = A_source
     # vortex contribution array
-    A[:-2, -2] = numpy.sum(B_vortex[:,0:Na-1], axis=1)
-    A[:-2, -1] = numpy.sum(B_vortex[:,Na:Na+Nb-1], axis=1)
+    A[:-2, -2] = numpy.sum(B_vortex[:,0:Na], axis=1)
+    A[:-2, -1] = numpy.sum(B_vortex[:,Na:Na+Nb], axis=1)
     # Kutta condition array
     A[-2:, :] = kutta_condition(A_source, B_vortex)
     return A
@@ -292,9 +299,9 @@ def build_freestream_rhs(panels, freestream):
     for i, panel in enumerate(panels):
         b[i] = -freestream.u_inf * numpy.cos(freestream.alpha - panel.beta)
     # freestream contribution on the Kutta condition
-    b[-1] = -freestream.u_inf * (numpy.sin(freestream.alpha - panels[0].beta) +
+    b[-2] = -freestream.u_inf * (numpy.sin(freestream.alpha - panels[0].beta) +
                                  numpy.sin(freestream.alpha - panels[Na-1].beta) )
-    b[-2] = -freestream.u_inf * (numpy.sin(freestream.alpha - panels[Na].beta) +
+    b[-1] = -freestream.u_inf * (numpy.sin(freestream.alpha - panels[Na].beta) +
                                  numpy.sin(freestream.alpha - panels[Na+Nb-1].beta) )
     return b
 
@@ -338,8 +345,8 @@ def compute_tangential_velocity(panels, freestream, strengths, A_source, B_vorte
     # matrix of vortex contribution on tangential velocity
     # is the opposite of
     # matrix of source contribution on normal velocity
-    A[:, -2] = -numpy.sum(A_source[:,0:Na-1], axis=1)
-    A[:, -1] = -numpy.sum(A_source[:,Na:Na+Nb-1], axis=1)
+    A[:, -2] = -numpy.sum(A_source[:,0:Na], axis=1)
+    A[:, -1] = -numpy.sum(A_source[:,Na:Na+Nb], axis=1)
     # freestream contribution
     b = freestream.u_inf * numpy.sin([freestream.alpha - panel.beta 
                                       for panel in panels])
