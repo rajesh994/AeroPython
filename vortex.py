@@ -11,7 +11,7 @@ from matplotlib import pyplot
 
 
 
-gamma = 5.0                      # strength of the vortex
+gamma = 5.0                      # strength of vortex 
 Nv=300              #number of vortices
 a=1                     #distance between vortices
 x_vortex=numpy.arange(-Nv*a/2,Nv*a/2,a)
