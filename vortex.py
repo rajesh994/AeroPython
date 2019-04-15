@@ -9,7 +9,7 @@ import math
 import numpy
 from matplotlib import pyplot
 
-
+#vortices
 
 gamma = 5.0                      # strength of vortex 
 Nv=300              #number of vortices
